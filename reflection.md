@@ -45,6 +45,8 @@ class Task:
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
 
+Yes, the design changed during implementation. One change I made was to add a new class called "Task" to represent individual care tasks for pets. Initially, I had planned to include the task information directly within the Tracker class, but I realized that it would be more organized and modular to have a separate Task class. This change allowed me to better manage the attributes and methods related to tasks, such as duration, priority, and frequency, and made it easier to extend the functionality of tasks in the future if needed.
+
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
@@ -94,6 +96,9 @@ class Task:
 **a. What went well**
 
 - What part of this project are you most satisfied with?
+I liked that i was care to design a simple uml and write a word then I be able to convert it to reaal diagram and that help me to figure out the classes and their responsibilities and how they interact with each other, and that made it easier to change and refactor the design and later I was able to implement the skeleton of the system.
+
+The most important and satisfying part focse on what matters and what is the important like classes and their responsibilities and relationships between them and ignoring the details that could be added later with simple implementations.
 
 **b. What you would improve**
 
