@@ -22,6 +22,40 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+PawPal+ goes beyond a simple task list — it actively detects and helps resolve scheduling conflicts so your pet care plan is always realistic.
+
+### Conflict Detection
+
+Every day in the 7-day schedule is scanned for overlapping task windows. Two tasks conflict when their assigned time ranges overlap (i.e. one starts before the other ends). Conflicts are classified by severity based on how much time overlaps:
+
+| Severity | Overlap | Indicator |
+|----------|---------|-----------|
+| Minor    | 1–5 min | 🟡 Yellow |
+| Moderate | 6–15 min | 🟠 Orange |
+| Major    | > 15 min | 🔴 Red |
+
+### Conflict UI
+
+When conflicts are found for a day, a **color-coded summary banner** appears immediately — no need to dig through the schedule to notice a problem. For each conflict, the detail panel shows:
+
+- **Side-by-side task cards** with time range and priority for both tasks
+- **Visual timeline bar** — blue and green blocks for each task, with the overlap highlighted in red, all scaled proportionally to the available time window
+- **Priority-aware suggestion** — automatically identifies which task has the lower priority and recommends shortening it to eliminate the overlap
+- **Auto-fix button** — one click applies the recommended fix instantly
+- **Manual override inputs** — adjust either task's duration to any value if you prefer a custom resolution
+
+The expander auto-opens for Major and Moderate conflicts so critical issues are never missed, and stays collapsed for Minor ones to keep the view clean.
+
+### Time-Aware Scheduling
+
+Tasks are distributed across the owner's free time blocks for each day:
+
+- **Single-occurrence tasks** are stacked sequentially from the start of the first free block, automatically advancing to the next block if a task would overflow.
+- **Multi-occurrence tasks** (e.g. feeding 3×/day) are spread evenly across all free blocks, with each occurrence centered within its sub-interval.
+- **Busy windows** (e.g. work hours) are respected — tasks are only placed in the gaps before and after the busy period.
+
 ## Getting started
 
 ### Setup

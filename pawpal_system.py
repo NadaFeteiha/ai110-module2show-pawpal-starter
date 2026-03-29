@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 
 
 class TimeSlot:
@@ -29,6 +29,7 @@ class Task:
         self.duration = duration   # in minutes
         self.priority = priority   # "high", "medium", "low"
         self.frequency = frequency # "daily", "weekly", "monthly"
+        self.active_from: Optional[date] = None  # None = always active
 
     def get_info(self) -> Dict:
         """Return a dictionary of task details."""        
@@ -38,6 +39,17 @@ class Task:
             "priority": self.priority,
             "frequency": self.frequency,
         }
+
+    def next_occurrence_after(self, completed_on: date) -> Optional[date]:
+        """
+        Return the date of the next occurrence after this task was completed.
+        Returns None for monthly tasks (no auto-reschedule).
+        """
+        if self.frequency == "daily":
+            return completed_on + timedelta(days=1)
+        elif self.frequency == "weekly":
+            return completed_on + timedelta(days=7)
+        return None
 
     def __repr__(self) -> str:
         """Return a concise string representation of the task."""
@@ -65,6 +77,7 @@ class Tracker:
     def __init__(self):
         """ Initialize the tracker with an empty list of tasks and an empty completion log.
         The completion log is a dictionary that maps (task, date) tuples to a boolean indicating whether the task was completed on that date.
+        next_occurrence stores the earliest date each task should next appear after being completed.
         """
         self.tasks: List[Task] = []
         self.completion_log: Dict[Tuple[Task, date], bool] = {}
@@ -87,20 +100,36 @@ class Tracker:
         self.tasks.remove(task)
 
     def get_tasks_for_day(self, day: date) -> List[Task]:
-        """Return tasks that are due on the given day based on their frequency."""
+        """
+        Return tasks due on the given day based on frequency.
+        Tasks with active_from set are hidden until that date arrives.
+        """
         due = []
         for task in self.tasks:
+            if task.active_from is not None and day < task.active_from:
+                continue  # next instance not yet due
             if task.frequency == "daily":
                 due.append(task)
-            elif task.frequency == "weekly" and day.weekday() == 0:  # every Monday
+            elif task.frequency == "weekly" and day.weekday() == 0:
                 due.append(task)
-            elif task.frequency == "monthly" and day.day == 1:       # first of month
+            elif task.frequency == "monthly" and day.day == 1:
                 due.append(task)
         return due
 
     def mark_task_completed(self, task: Task, day: date):
-        """Record a task as completed for the given day."""
+        """
+        Record a task as completed for the given day.
+        For daily/weekly tasks: removes the completed instance and inserts a
+        fresh one with active_from set to the next occurrence date, so it
+        disappears now and reappears automatically on the right day.
+        """
         self.completion_log[(task, day)] = True
+        next_due = task.next_occurrence_after(day)
+        if next_due is not None:
+            self.tasks.remove(task)
+            next_task = Task(task.name, task.duration, task.priority, task.frequency)
+            next_task.active_from = next_due
+            self.tasks.append(next_task)
 
     def send_reminder(self, task: Task, day: date, owners: List["Owner"]):
         """Print a reminder to each owner about an upcoming or missed task."""
@@ -242,6 +271,15 @@ class Scheduler:
                     schedule.add_entry(day, pet, task)
 
         return schedule
+
+    def complete_task(self, task: Task, pet: "Pet", day: date) -> Optional[date]:
+        """
+        Mark a task as completed for the given pet and day.
+        Auto-reschedules the next occurrence for daily and weekly tasks.
+        Returns the next due date, or None for monthly tasks.
+        """
+        pet.tracker.mark_task_completed(task, day)
+        return task.next_occurrence_after(day)
 
     def explain_schedule(self, schedule: Schedule) -> str:
         """Return a human-readable summary of the schedule."""
