@@ -156,6 +156,15 @@ The most important and satisfying part focse on what matters and what is the imp
 
 - If you had another iteration, what would you improve or redesign?
 
+- i want to integrate the notifiction to send alert or email to the owner for the upcoming tasks or missed tasks and test it.
+- I also want to improve the scheduling algorithm to consider more complex constraints and preferences, such as the owner's energy levels or the pet's mood and behavior patterns.
+- I also want to add more features like chatbot that can answer the owner's questions about pet care and provide personalized recommendations based on the pet's needs and the owner's preferences.
+
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+
+start with easy and simple design and then add more features and details later.
+also focus test the important and critical parts and ask for feedback and suggestions to know what need to refactor and implement better.
+
+focus on the ai suggestions not accepting them immediately but asking for more details and explanations to understand the suggestion better and also to make sure that I am not missing any important aspect of the implementation.

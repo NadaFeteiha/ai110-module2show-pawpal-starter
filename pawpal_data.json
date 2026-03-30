@@ -33,7 +33,7 @@
           "start": "05:00",
           "end": "23:00",
           "has_busy_block": false,
-          "busy_start": "08:00",
+          "busy_start": "09:00",
           "busy_end": "17:00"
         },
         "Tuesday": {
@@ -42,7 +42,7 @@
           "start": "05:00",
           "end": "23:00",
           "has_busy_block": false,
-          "busy_start": "08:00",
+          "busy_start": "09:00",
           "busy_end": "17:00"
         },
         "Wednesday": {
@@ -51,7 +51,7 @@
           "start": "05:00",
           "end": "23:00",
           "has_busy_block": false,
-          "busy_start": "08:00",
+          "busy_start": "09:00",
           "busy_end": "17:00"
         },
         "Thursday": {
@@ -60,7 +60,7 @@
           "start": "05:00",
           "end": "23:59",
           "has_busy_block": false,
-          "busy_start": "08:00",
+          "busy_start": "09:00",
           "busy_end": "17:00"
         },
         "Friday": {
@@ -69,7 +69,7 @@
           "start": "05:00",
           "end": "23:59",
           "has_busy_block": false,
-          "busy_start": "08:00",
+          "busy_start": "09:00",
           "busy_end": "17:00"
         },
         "Saturday": {
